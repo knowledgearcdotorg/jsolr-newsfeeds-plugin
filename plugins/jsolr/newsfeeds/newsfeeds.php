@@ -148,7 +148,13 @@ class PlgJSolrNewsfeeds extends \JSolr\Plugin
         $array['created_dt'] = $created->format('Y-m-d\TH:i:s\Z', false);
         $array['modified_dt'] = $modified->format('Y-m-d\TH:i:s\Z', false);
 
-        $published = JFactory::getDate($source->publish_up);
+        // currently newsfeeds component doesn't preset the published date so
+        // use modified instead.
+        if ($source->publish_up == '0000-00-00 00:00:00') {
+            $published = $modified;
+        } else {
+            $published = JFactory::getDate($source->publish_up);
+        }
 
         $array['published_dt'] = $published->format('Y-m-d\TH:i:s\Z', false);
 
